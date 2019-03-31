@@ -8,8 +8,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && apt install -y wget gnupg2 software-properties-common --no-install-recommends --no-install-suggests
 RUN add-apt-repository ppa:ubuntu-toolchain-r/test
-RUN apt update && install -y gcc-8 g++-8 distcc
-RUN apt update && install -y clang-8
+RUN apt update && apt install -y gcc-8 g++-8 distcc
+RUN apt update && apt install -y clang-8
 
 RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 80 --slave /usr/bin/g++ g++ /usr/bin/g++-8
 RUN update-alternatives --config gcc
