@@ -1,16 +1,27 @@
-FROM hub.deepin.io/debian:jessie
-
-MAINTAINER choldrim <choldrim@foxmail.com>
-
-ADD http://mirrors.163.com/.help/sources.list.jessie /etc/apt/sources.list
+FROM ubuntu:bionic
 
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update \
-    && yes | apt-get install --no-install-recommends --no-install-suggests g++ clang distcc \
-    && apt-get clean \
+
+#RUN echo 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main' >> /etc/apt/sources.list
+#RUN echo 'deb-src http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main' >> /etc/apt/sources.list
+#RUN apt-key add '6084 F3CF 814B 57C1 CF12 EFD5 15CF 4D18 AF4F 7421'
+
+RUN apt update && apt install -y wget gnupg2 software-properties-common --no-install-recommends --no-install-suggests
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test
+RUN apt install -y gcc-8 g++-8 distcc
+#RUN apt update -y && apt install clang-8
+
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 80 --slave /usr/bin/g++ g++ /usr/bin/g++-8
+RUN update-alternatives --config gcc
+
+RUN apt clean -y \
     && rm -rf /var/lib/apt/lists
 
-COPY entrypoint.sh /entrypiont.sh
+RUN mkdir -p /home/distcc
+RUN chmod a+rwx -R /home/distcc/
+RUN cd /home/distcc/
+COPY entrypoint.sh /home/distcc/entrypiont.sh
 
 EXPOSE 3632
-ENTRYPOINT ["/entrypiont.sh"]
+RUN echo Starting
+ENTRYPOINT ["/home/distcc/entrypiont.sh"]
