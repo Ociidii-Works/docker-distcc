@@ -6,7 +6,7 @@ services:
       context: .
     environment: 
         # - NETWORK=10.0.0.1/16
-        - JOBS=12
+        - JOBS=4
     ports:
         - 3632:3632
     user: distccd
