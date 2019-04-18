@@ -17,11 +17,11 @@ RUN update-alternatives --config gcc
 RUN apt clean -y \
     && rm -rf /var/lib/apt/lists
 
-RUN mkdir -p /home/distcc
-RUN chmod a+rwx -R /home/distcc/
-RUN cd /home/distcc/
-COPY entrypoint.sh /home/distcc/entrypiont.sh
+RUN mkdir -p /home/distccd
+RUN chmod a+rwx -R /home/distccd/
+RUN cd /home/distccd
+COPY entrypoint.sh /home/distccd/entrypiont.sh
 
 EXPOSE 3632
 RUN echo Starting
-ENTRYPOINT ["/home/distcc/entrypiont.sh"]
+ENTRYPOINT ["/home/distccd/entrypiont.sh"]
