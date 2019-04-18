@@ -12,5 +12,6 @@ distccd --allow 172.16.0.0/12 --allow 192.168.0.0/16 --allow 10.0.0.0/8 \
 	--log-level notice \
 	--log-file /home/distcc/distcc.log \
 	--user=distcc \
+	--zeroconf \
 	$append_params
 tail -f /home/distcc/distcc.log
